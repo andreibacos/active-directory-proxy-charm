@@ -1,0 +1,19 @@
+name: active-directory-proxy
+summary: "Active Directory proxy charm"
+maintainers: [ "Andrei Bacos <abacos@cloudbasesolutions.com>" ]
+description: Proxy charm for active directory for situations where an external AD will be used that was not deployed with active-directory main charm.
+tags:
+  - active-directory
+  - windows
+categories:
+  - windows
+series:
+  - win2016hv
+  - win2016
+provides:
+  ad-proxy:
+    interface: ad-proxy
+requires:
+  general-info:
+    interface: juju-info
+    scope: container

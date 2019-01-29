@@ -1,0 +1,36 @@
+options:
+  ad-admin-username:
+    type: string
+    default:
+    description: |
+      AD admin username used to join
+  ad-admin-password:
+    type: string
+    default:
+    description: |
+      External AD admin password used for domain related configuration
+  ad-ip:
+    type: string
+    default:
+    description: |
+      External AD ip, this will be set as our new nameserver to perform AD join
+  ad-domain:
+    type: string
+    default:
+    description: |
+      External AD domain name
+  ad-service-account:
+    type: string
+    default:
+    description: |
+      External AD service account used to run all services
+  ad-ou:
+    type: string
+    default:
+    description: |
+      External AD OU this computer will be part of
+  ad-group:
+    type: string
+    default:
+    description: |
+      External AD group this computer will be part of
