@@ -34,3 +34,9 @@ options:
     default:
     description: |
       External AD group this computer will be part of
+  ad-netbios-options:
+    type: int
+    description: |
+      0 Specifies that the Dynamic Host Configuration Protocol (DHCP) setting is used if available.
+      1 Specifies that NetBIOS is enabled. This is the default value if DHCP is not available.
+      2 Specifies that NetBIOS is disabled.

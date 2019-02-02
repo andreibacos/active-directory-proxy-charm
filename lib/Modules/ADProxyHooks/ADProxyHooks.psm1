@@ -97,6 +97,17 @@ function Get-ConfADGroup {
     return $cfg['ad-group']
 }
 
+
+function Get-ConfADNetBiosOptions {
+    $cfg = Get-JujuCharmConfig
+
+    if(!$cfg['ad-netbios-options']) {
+        return $false
+    }
+
+    return $cfg['ad-netbios-options']
+}
+
 function Get-ConfADCredential {
     $u = Get-ConfADUsername
     $p = Get-ConfADPassword | ConvertTo-SecureString -asPlainText -Force
@@ -119,7 +130,11 @@ function Set-RelationADInfo {
         'ad-ou' = Get-ConfADOU
         'ad-group' = Get-ConfADGroup
         'ad-service-account' = Get-ConfADServiceAccount
+    }
 
+    
+    if (Get-ConfADNetBiosOptions) {
+        $settings.Add('ad-netbios-options', $(Get-ConfADNetBiosOptions))
     }
 
     $rids = Get-JujuRelationIds -Relation "ad-proxy"
@@ -237,6 +252,12 @@ function Invoke-InstallHook {
 
     if (!((Get-WmiObject -Class Win32_ComputerSystem).PartOfDomain)) {
         Set-DnsClientServerAddress -InterfaceAlias * -ServerAddresses $ad_ip
+
+    
+        if (Get-ConfADNetBiosOptions) {
+            set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\tcpip* `
+                -Name NetbiosOptions -Value $(Get-ConfADNetBiosOptions)
+        }
 
         if($domain_ou) {
             Write-JujuWarning "External AD -> Joining AD OU: $domain_ou"
